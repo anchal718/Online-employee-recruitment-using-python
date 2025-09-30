@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dream Job Portal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    body {
+      background: url('/static/images/background.mp4') no-repeat center center/cover;
+      color: white;
+      text-align: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 15px 0;
+      text-align: center;
+      z-index: 1000;
+    }
+    
+    .navbar a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    
+    .navbar a:hover {
+      color: #ff7eb3;
+    }
+    
+    .container {
+      max-width: 700px;
+      padding: 50px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 1s ease-in-out;
+    }
+    
+    .image {
+      width: 300px;
+      height: 200px;
+      border-radius: 15px;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+    
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: #ffeb3b;
+      animation: slideIn 1s ease-in-out;
+    }
+    
+    .intro-text {
+      font-size: 1.4em;
+      margin-bottom: 30px;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+    
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .btn-large {
+      text-decoration: none;
+      background: linear-gradient(45deg, #ff4d6d, #ff7eb3);
+      color: white;
+      padding: 15px 35px;
+      font-size: 1.2em;
+      border-radius: 30px;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 5px 20px rgba(255, 78, 109, 0.5);
+    }
+    
+    .btn-large:hover {
+      background: linear-gradient(45deg, #ff7eb3, #ff4d6d);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(255, 78, 109, 0.6);
+    }
+    
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 1em;
+      font-weight: 400;
+    }
+    
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    
+    @keyframes slideIn {
+      0% { transform: translateY(-50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .intro-text {
+        font-size: 1.2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/jobs">Jobs</a>
+    <a href="/contact">Contact</a>
+  </div>
+
+  <div class="container">
+    <h1>🌟 Your Dream Job Awaits! 🚀</h1>
+    <p class="intro-text">Explore exciting opportunities and build your future with us.</p>
+    <div class="button-container">
+       <a href="/about" class="btn-large">📝 Learn More</a>
+       <a href="/contact" class="btn-large">💼 Apply Now</a>
+       <a href="/jobs" class="btn-large">🔍 View Jobs</a>
+       <a href="/admin/login" class="btn-large" style="background:#444;">🔑 Admin Login</a> 
+    </div>
+  </div>
+  <footer>
+    <p>&copy; 2025 Recruitment Portal. All rights reserved.</p>
+  </footer>
+</body>
+</html>

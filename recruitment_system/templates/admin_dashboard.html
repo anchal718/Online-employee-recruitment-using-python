@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f9;
+            margin: 0;
+            padding: 15px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            max-width: 900px;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .approve {
+            background: #28a745;
+            color: white;
+        }
+        .approve:hover {
+            background: #218838;
+        }
+        .reject {
+            background: #dc3545;
+            color: white;
+        }
+        .reject:hover {
+            background: #c82333;
+        }
+        .resume-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .resume-link:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+    <script>
+        function confirmAction(button, actionType) {
+            let url = button.getAttribute("data-url");
+            let confirmText = actionType === "approve" ? "approve" : "reject";
+            
+            if (confirm("Are you sure you want to " + confirmText + " this application?")) {
+                button.disabled = true; 
+                fetch(url, { method: "GET" })
+                    .then(() => location.reload()) 
+                    .catch(err => {
+                        alert("Error processing request");
+                        button.disabled = false; 
+                    });
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <h2>📊 Admin Dashboard</h2>
+    
+    <table>
+        <tr>
+            <th>Candidate Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Qualification</th>
+            <th>Job Title</th>
+            <th>Status</th>
+            <th>Resume</th>
+            <th>Action</th>
+        </tr>
+        
+        {% for application in applications %}
+    <tr>
+        <td>{{ application['candidate_name'] }}</td>
+        <td>{{ application['email'] }}</td>
+        <td>{{ application['phone'] }}</td>
+        <td>{{ application['qualification'] }}</td>
+        <td>{{ application['job_title'] }}</td>
+        <td>{{ application['status'] }}
+            {% if application['status'].lower() == "approved" %}
+                <span style="color: green; font-weight: bold;">✅ Approved</span>
+            {% elif application['status'].lower() == "rejected" %}
+                <span style="color: red; font-weight: bold;">❌ Rejected</span>
+            {% else %}
+                <span style="color: orange; font-weight: bold;">⏳ Pending</span>
+            {% endif %}
+        </td>
+        <td>{{ application['Resume'] }}
+            {% if application.get('resume_path') %}
+                <a href="{{ url_for('view_resume', filename=application.resume_path) }}" target="_blank">View</a>
+                <a href="{{ url_for('download_resume', filename=application.resume_path) }}">Download</a>
+
+            {% else %}
+            <span style="color: gray;">No Resume Uploaded</span>
+            {% endif %}
+        </td>
+        <td>
+            <button class="btn approve" data-url="{{ url_for('approve_application', application_id=application['id']) }}" onclick="confirmAction(this, 'approve')">✅ Approve</button>
+            <button class="btn reject" data-url="{{ url_for('reject_application', application_id=application['id']) }}" onclick="confirmAction(this, 'reject')">❌ Reject</button>
+        </td>
+    </tr>
+{% endfor %}
+
+    </table>
+
+</body>
+</html>

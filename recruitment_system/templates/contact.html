@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for a Job</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to right, #ffdde1, #ee9ca7);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            max-width: 700px;
+            width: 80%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #ee9ca7;
+            outline: none;
+            box-shadow: 0 0 6px rgba(238, 156, 167, 0.5);
+        }
+
+        label {
+            text-align: left;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+
+        .btn {
+            background: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        /* File Upload Button */
+        .file-upload {
+            background: white;
+            padding: 8px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .file-upload:hover {
+            border-color: #ee9ca7;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Apply for a Job</h1>
+        <form action="{{ url_for('contact') }}" method="POST" enctype="multipart/form-data">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <input type="tel" name="phone" placeholder="Phone Number" pattern="[0-9]{10}" title="Enter a 10-digit phone number" required>
+
+            <label for="qualification">Select your qualification:</label>
+            <select name="qualification" required>
+                <option value="">Select Qualification</option>
+                {% for qual in qualifications %}
+                    <option value="{{ qual }}">{{ qual }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="job_id">Select a Job:</label>
+            <select name="job_id" required>
+                {% if jobs %}
+                <option value="">Select a Job</option>
+                    {% for job in jobs %}
+                        <option value="{{ job[0] }}">{{ job[1] }}</option>
+                    {% endfor %}
+                {% else %}
+                    <option disabled>No jobs available</option>
+                {% endif %}
+            </select>
+
+            <!-- Resume Upload Field -->
+            <label for="resume">Upload Your Resume:</label>
+            <input type="file" name="resume" accept=".pdf, .docx" required id="fileInput" class="hidden">
+            <label for="fileInput" class="file-upload">Choose File</label>
+            <span id="fileName">No file chosen</span>
+
+            <button type="submit" class="btn" id="submitBtn" {% if not jobs %}disabled{% endif %}>Apply</button>
+        </form>
+    </div>
+
+    <script>
+        // Display the chosen file name
+        document.getElementById("fileInput").addEventListener("change", function () {
+            let fileName = this.files[0] ? this.files[0].name : "No file chosen";
+            document.getElementById("fileName").textContent = fileName;
+        });
+    </script>
+</body>
+</html>
